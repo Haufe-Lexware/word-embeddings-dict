@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  embdict:
+    build: target/docker/stage
+    image: embdict
+    hostname: embdict
+    networks:
+      - ds
+    environment:
+      OPENBLAS_NUM_THREADS: 1
+      LANGUAGES: ${LANGUAGES:-ar,bg,ca,cs,da,de,el,en,es,et,fi,fr,he,hr,hu,id,it,mk,nl,no,pl,pt,ro,ru,sk,sl,sv,tr,uk,vi}
+      DICTIONARY_SIZE: ${DICTIONARY_SIZE:-all}
+      DO_CONVERSION: ${DO_CONVERSION:-false}
+      RESCALE_VECTORS: ${RESCALE_VECTORS:-true}
+      DICT_TYPES: ${DICT_TYPES:-parallel}
+      MEMORY: ${MEMORY:-16000}
+    expose:
+      - 5150
+      - 5151
+    ports:
+      - 5150:5150
+      - 5151:5151
+    volumes:
+      - ../data:/data
+
+networks:
+  ds:
+    external: true
