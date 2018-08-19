@@ -76,7 +76,7 @@ object EmbeddingsDictReader {
     }
 
 //    languages.par.foreach(lang => createActor(lang))
-    languages.par.foreach(lang => createActor(lang))
+    languages.foreach(lang => createActor(lang))
 
     // not needed any longer
     spark.stop()
