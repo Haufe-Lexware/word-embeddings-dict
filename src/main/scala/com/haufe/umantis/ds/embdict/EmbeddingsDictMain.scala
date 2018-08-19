@@ -75,6 +75,7 @@ object EmbeddingsDictReader {
       System.exit(0)
     }
 
+//    languages.par.foreach(lang => createActor(lang))
     languages.par.foreach(lang => createActor(lang))
 
     // not needed any longer
