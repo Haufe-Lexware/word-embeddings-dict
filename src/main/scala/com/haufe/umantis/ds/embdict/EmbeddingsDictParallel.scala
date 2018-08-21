@@ -40,10 +40,10 @@ class EmbeddingsDictParallel(language: String,
                              private val wordList: Array[String])
   extends EmbeddingsDict {
 
-  // but last partition is smaller
+  // last partition is bigger
   private val numVecsPerPartition = wordVectors(0).length / vectorSize
-  private val numWordsSplit = wordVectors.map(partition => partition.length / vectorSize)
   private val numSplits = wordVectors.length
+  private val numWordsSplit = wordVectors.map(partition => partition.length / vectorSize)
 
   val parallelCollectionHelper: ParArray[Int] = (0 until numSplits).toArray.par
 
@@ -58,10 +58,22 @@ class EmbeddingsDictParallel(language: String,
 
   @inline
   override def getVector(ind: Int): Array[Float] = {
-    val partition = ind / numVecsPerPartition
-    val index = ind % numVecsPerPartition
+    val (partition, index) = {
+      val part = ind / numVecsPerPartition
+
+      if (part < numSplits) {
+        (part, ind % numVecsPerPartition)
+      } else {
+        // because last partition is bigger
+        (numSplits - 1, numVecsPerPartition + (ind % numVecsPerPartition))
+      }
+    }
     val begin = index * vectorSize
     val end = begin + vectorSize
+
+//    println(
+//      s"PARALLEL: ind: $ind, partition: $partition, index: $index, " +
+//      s"begin: $begin, end: $end")
 
 //    println(
 //      s"PARALLEL: ind: $ind, partition: $partition, index: $index, " +
