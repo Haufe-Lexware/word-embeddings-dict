@@ -27,6 +27,10 @@ wiki.en.vec
 The reason for this names is that all vectors for languages other than English 
 are aligned with the English ones.
 
+See `scripts/download.sh` and `scripts/rename.sh` to download the raw vectors from
+Amazon AWS.
+
+
 ### Dictionary
 This is the main mode of execution. The service will provide 
 
