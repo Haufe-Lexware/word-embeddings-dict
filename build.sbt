@@ -19,7 +19,7 @@ libraryDependencies ++= {
 
 // spark
 libraryDependencies ++= {
-  val sparkVer = "2.3.1"
+  val sparkVer = "2.4.0"
   Seq(
     "org.apache.spark" %% "spark-core" % sparkVer,
     "org.apache.spark" %% "spark-sql" % sparkVer,
